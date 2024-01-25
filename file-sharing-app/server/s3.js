@@ -8,9 +8,9 @@ dotenv.config();
 const randomBytes = promisify(crypto.randomBytes);
 
 const region = process.env.AWS_REGION;
-const bucketName = process.env.AWS_BUCKETNAME;
-const accessKeyId = process.env.AWS_ACCESSKEYID;
-const secretAccessKey = process.env.AWS_SECRETACCESSKEY;
+const bucketName = process.env.AWS_BUCKET_NAME;
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
 const s3 = new aws.S3({
     region,
@@ -26,10 +26,11 @@ const generateSignedUrl = async () => {
     const params = ({
         Bucket: bucketName,
         Key: imageName,
-        Expires: 60
+        Expires: 100
     })
 
     const signedUrl = await s3.getSignedUrlPromise('putObject', params);
+    console.log("nice")
     return signedUrl;
 }
 

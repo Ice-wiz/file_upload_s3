@@ -4,7 +4,7 @@ import { uploadFile, getSignedUrl } from '../service/api';
 
 const Home = () => {
   const [url, setUrl] = useState('');
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState(null);
 
   const fileInputRef = useRef();
 
@@ -13,6 +13,7 @@ const Home = () => {
       const response = await getSignedUrl();
       console.log(response.url);
       setUrl(response.url);
+      console.log("hi")
     }
     getData();
   }, [])
@@ -20,8 +21,10 @@ const Home = () => {
   useEffect(() => {
     const getImage = async () => {
       if (file) {
+        console.log(file)
         await uploadFile(url, file);
         setUrl(url.split('?')[0]);
+        console.log("yoo")
       }
     }
     getImage();
@@ -42,7 +45,13 @@ const Home = () => {
           type="file"
           ref={fileInputRef}
           style={{ display: "none" }}
-          onChange={(e) => setFile(e.target.files[0])}
+          onChange={
+            (e) => {
+              setFile(e.target.files[0])
+              console.log(e.target.files[0])
+            }
+             
+          }
         />
         <button onClick={() => onUploadClick()}>Select files to upload</button>&nbsp;
         or drag-and-drop files into this browser window.
